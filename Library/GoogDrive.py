@@ -29,7 +29,7 @@ def _deleteEarlier(service, filename):
 
 def _uploadFile(service, filename):
     # Upload file
-    file_metadata = {'name': filename}
+    file_metadata = {'name': filename, 'mimeType': 'application/vnd.google-apps.spreadsheet'}
     media = MediaFileUpload(filename, mimetype='text/csv')
     file = service.files().create(body=file_metadata,
                                         media_body=media,
