@@ -8,7 +8,7 @@ def UploadToGDrive(filename):
     """
     service = build('drive', 'v3', credentials=_authentication())
 
-    # Find earlier and delete earlier versions
+    # Find and delete earlier versions
     response = service.files().list(q="name='" + filename + "'",
                                     spaces='drive', 
                                     fields="files(id, name)").execute()
