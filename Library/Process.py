@@ -3,12 +3,13 @@ import csv
 
 def createCsv(topcast, path):
     if os.path.exists(path):
+        print("Found earlier revision of", path, "on local filesystem, deleting it now")
         os.remove(path)
-    else:
-        with open(file=path, mode="w") as csvfile:
-            writer = csv.writer(csvfile)
-            for cast in topcast:
-                writer.writerow(cast)
+
+    with open(file=path, mode="w") as csvfile:
+        writer = csv.writer(csvfile)
+        for cast in topcast:
+            writer.writerow(cast)
 
 def top5(path):
     with open(file=path, mode="r") as f:

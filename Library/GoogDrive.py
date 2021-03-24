@@ -1,6 +1,5 @@
 import os.path
 from googleapiclient.discovery import build, MediaFileUpload
-from google.auth.transport.requests import Request
 from Library.GoogAuth import _authentication
 
 
@@ -9,10 +8,23 @@ def UploadToGDrive(filename):
     """
     service = build('drive', 'v3', credentials=_authentication())
 
-    # Call the Drive v3 API
+    # Find earlier and delete earlier versions
+    response = service.files().list(q="name='" + filename + "'",
+                                    spaces='drive', 
+                                    fields="files(id, name)").execute()
+    
+    files = response.get('files', [])
+    if len(files) > 0:
+        print("Found", len(files), "earlier revisions on Google Drive, deleting them")
+        for f in files:
+                service.files().delete(fileId=f.get('id')).execute()
+
+
+
+    # Upload file
     file_metadata = {'name': filename}
     media = MediaFileUpload(filename, mimetype='text/csv')
     file = service.files().create(body=file_metadata,
                                         media_body=media,
                                         fields='id').execute()
-    print('File ID: %s' % file.get('id'))
+    print('top5.csv uploaded with File ID: %s' % file.get('id'))
