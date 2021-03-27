@@ -1,13 +1,8 @@
-// CODE FOR AUTOMATING THE GOOGLE PART OF THE HOMEWORK
-// Replace the id's in the SpreadsheettoForm function with your own
-// cast_sheet_id comes from the script output
-// for email_sheet_id create your own spreadsheet with the emails and copy the id in the URL
-
 function SpreadsheettoForm() {
-  // Main function of the script
-  // Add the id of the cast and email spreadsheets here
-  let cast_sheet_id = "ADD_CAST_SHEET_ID_HERE"
-  let email_sheet_id = 'ADD_EMAIL_SHEET_ID_HERE'
+  Logger.log("Getting top5 id")
+  let cast_sheet_id = getSheetId("top5")
+  Logger.log("Getting automation_email id")
+  let email_sheet_id = getSheetId("automation_email")
 
   let formURL = createForm(cast_sheet_id)
   Logger.log("Published URL: " + formURL["puburl"])
@@ -15,8 +10,18 @@ function SpreadsheettoForm() {
   sendToContacts(formURL, email_sheet_id)
 }
 
+function getSheetId(filename){
+  return DriveApp.getFilesByName(filename).next().getId()
+}
+
 function createForm(cast_sheet_id) {
-  // Creates the form based on the values in the cast sheet
+  try{
+    DriveApp.getFilesByName("Top Cast").next().getId()
+  }
+  catch (err) {
+    Logger.log("Error deleting previous forms. Maybe no previous form was created?")
+  }
+  
   let cast = Sheets.Spreadsheets.Values.get(cast_sheet_id, 'A1:A').values
   
   let cast_form = FormApp.create("Top Cast")

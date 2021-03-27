@@ -9,7 +9,7 @@ def UploadToGDrive(filename):
     service = build('drive', 'v3', credentials=_authentication())
 
     # Delete earlier revisions
-    _deleteEarlier(service, filename)
+    _deleteEarlier(service, 'top5')
     
     # Upload file and return file id
     file_id = _uploadFile(service, filename)
@@ -35,5 +35,5 @@ def _uploadFile(service, filename):
                                         media_body=media,
                                         fields='id').execute()
     fid = file.get('id')
-    print('top5.csv uploaded with File ID: %s' % fid)
+    print('top5 sheet uploaded with File ID: %s' % fid)
     return fid
