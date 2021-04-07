@@ -25,7 +25,7 @@ python main.py
 ```
 To run the Google App Script portion of the assignment, run the default/SpreadsheettoForm function on App Script.
 ## Setting up the automation
-To automate the execution of the web scraping, you can use *crontab*. Run *crontab -e* and paste the following command into the window, which will run the script automically every Sunday at 12:00 UTC. **For this to work, the contents of this repo need to be under /opt/Automation-Homework!**
+To automate the execution of the web scraping, you can use *crontab*. Run *crontab -e* and paste the following command into the window, which will run the script automically every Sunday at 12:00 UTC. **For this to work, the contents of this repo need to be under /opt/Automation-Homework and on MacOS you might need to enable Full-Disk Access for the cron binary!**
 ```
 0 12 * * 0 /opt/Automation-Homework/automate.sh >/dev/null 2>&1
 ```
